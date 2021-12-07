@@ -1,0 +1,14 @@
+GÉNÉRATION DE MAP
+    1. Map extérieure : Lagrange
+    2. Map intérieure : Perlin Noise
+
+
+
+ARMES
+    1. Lance-Roquette : trajectoire presque rectiligne jusqu'à plus d'essence et chute de la rocket, explosion de zone,
+       gros dégats sur la map
+    2. Grenade : trectoire parabolique, fragmentation après 3 secondes -> dégats à l'explosion + fragments, grosse 
+       destruction à la première explo + map abimée par les fragments
+    3. Foreuse : transperce la map de part en part, trajectoire rectiligne, explose après 5 secondes, accélère dans l'air 
+       et ralentit quand tarverse de la matière, destruction de décors à l'explosion et en forage
+    4. Mine : explose quand un personnage marche dessus, destruction de terrain, dégats et bump 
