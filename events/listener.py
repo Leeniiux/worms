@@ -1,5 +1,5 @@
-from utils.game_info import Info
-from utils.states import State
+from utils.info.info import Info
+from utils.info.info import State
 
 
 class Listener:
