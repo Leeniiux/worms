@@ -1,4 +1,5 @@
 from modules.players.player import Player
+import time
 
 
 class Grenade:
@@ -11,6 +12,14 @@ class Grenade:
         self.y = player.y
 
 
+    def before_explosion(self):
+        a = 3
+        for i in range (3):
+            print(a)
+            time.sleep(1)
+            a-=1
+        print("boom")
+
 if __name__ == '__main__':
     player = Player(50, 0)
     grenade = Grenade(player)
@@ -19,3 +28,4 @@ if __name__ == '__main__':
     player.x = 150
     grenade2 = Grenade(player)
     print(grenade2.x)
+    grenade.before_explosion()
