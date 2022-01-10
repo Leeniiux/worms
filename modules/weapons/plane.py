@@ -1,9 +1,13 @@
+import time
+
 import pygame.mouse
+
+from modules.weapons.missile import Missile
 
 
 class Plane:
-    x=0
-    y=0
+    x=-20
+    y=-20
 
     def __init__(self):
         self.x = 0
@@ -20,9 +24,12 @@ class Plane:
         self.x += 20
 
     def throw_bombs(self):
-        if(self.x < 1920):
+        ev=pygame.event.get()
+        currentPosX=self.x
+        currentPosY=self.y
+        if(self.x < 1920 and pygame.mouse.get_pressed(1)):
             for i in range (5):
-                misile = Missile()
-
+                misile = Missile(currentPosX, currentPosY)
+                time.sleep(1)
 
 
