@@ -2,6 +2,7 @@ import pygame
 
 from config import Config
 from files import Files
+from map.map_builder import MapBuilder
 
 
 def listen():
@@ -30,10 +31,14 @@ def display(window):
 
     if Config.STATE == "init":
         Config.STATE = "game"
+        Config.MAP = MapBuilder.generate(True)
         display(window)
         return
 
     if Config.STATE == "game":
+        window.blit(Files.IMG_BACKGROUND_BOTH, (0, 0))
+        for p in Config.MAP.forms:
+            pygame.draw.polygon(window, points=p, color=pygame.color.Color(227, 71, 245), width=5)
         return
 
 
