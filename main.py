@@ -26,7 +26,8 @@ def display(window):
 
     if Config.STATE == "main_menu":
         window.blit(Files.IMG_BACKGROUND_BOTH, (0, 0))
-        window.blit(Files.IMG_NEW_GAME, (0, 0))
+        window.blit(Files.IMG_NEW_GAME, ((Config.WINDOW_W-Files.IMG_NEW_GAME_W)/2, (Config.WINDOW_H-Files.IMG_NEW_GAME_H)/2))
+        #pygame.draw.polygon(window, points=MapBuilder.generateForm(500, 100, 20, 10) + 500, width=4, color=pygame.color.Color(20, 20, 20))
         return
 
     if Config.STATE == "init":
