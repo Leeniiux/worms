@@ -6,7 +6,7 @@ class Rocket_Launcher:
 
     x = 0
     y = 0
-
+    r = 0,2
     def __init__(self, player):
         self.x = player.x
         self.y = player.y
@@ -17,10 +17,6 @@ class Rocket_Launcher:
         for i in range (3):
             time.sleep(1)
         return True
-
-    def traj(self, gravity, wind, window):
-        #trajectoire = polynôme du second degré
-        courbe =
 
 
 if __name__ == '__main__':

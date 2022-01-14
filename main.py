@@ -103,20 +103,21 @@ def traj(self, window, weapon, wind, gravity):
     speed = [vectB[0]-vectA[0], vectB[1]-vectA[1]]
     currentPos = vectB
     positions = []
-    while not hitSurface() or not outOfBounds():
+    while not hitSurface(weapon) or not outOfBounds(weapon):
         positions.append(currentPos)
         oldpos = currentPos
         currentPos[0] = currentPos[0]+(-6*weapon.r*math.pi)/weapon.MASSE
         currentPos[1] = currentPos[1]+(6*weapon.r*math.pi+GRAVITY)/weapon.MASSE
-        pygame.draw.arc(window, 000000, )
 
 
 
 
-def outOfBounds():
+
+
+def outOfBounds(weapon):
     pass
 
-def hitSurface():
+def hitSurface(weapon):
     pass
 if __name__ == '__main__':
     main()

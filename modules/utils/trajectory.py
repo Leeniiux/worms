@@ -1,4 +1,5 @@
 import numpy
+import pygame
 
 from config import Config
 
@@ -30,3 +31,5 @@ class Trajectory:
     def next(self):
         self.iterator = self.iterator + 1
         return self.coords[self.iterator]
+
+
