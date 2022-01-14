@@ -21,7 +21,7 @@ class Grenade(projectile.Projectile):
     def throw(self, pos, speed):
         if self.uses >= self.max_uses:
             return False
-        self.uses += 1
+        # self.uses += 1
 
         self.trajectory = self.getTrajectory(pos, speed)
         self.throwing = True

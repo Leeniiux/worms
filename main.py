@@ -51,7 +51,9 @@ def display(window):
 
     if Config.STATE == "main_menu":
         window.blit(Files.IMG_BACKGROUND_BOTH, (0, 0))
-        window.blit(Files.IMG_NEW_GAME, ((Config.WINDOW_W-Files.IMG_NEW_GAME_W)/2, (Config.WINDOW_H-Files.IMG_NEW_GAME_H)/2))
+        #window.blit(Files.IMG_NEW_GAME, ((Config.WINDOW_W-Files.IMG_NEW_GAME_W)/2, (Config.WINDOW_H-Files.IMG_NEW_GAME_H)/2))
+        render = Config.FONT.render("Press SPACE to start the game !", False, (0, 0, 0))
+        window.blit(render, (Config.WINDOW_W/2-render.get_width()/2, Config.WINDOW_H/2-render.get_height()/2))
         return
 
     if Config.STATE == "init":
@@ -79,7 +81,8 @@ def display(window):
         for p in Config.TEAM.players:
             p.move()
             pygame.draw.ellipse(window, Config.TEAM.color, pygame.Rect(p.x-10, p.y-50, 20, 60), 0)
-            window.blit(Config.FONT.render(str(p.health), False, (0, 0, 0)), (p.x, p.y - 120))
+            render = Config.FONT.render(str(p.health), False, (0, 0, 0))
+            window.blit(render, (p.x-render.get_width()/2, p.y - 120))
             for w in p.weapons:
                 if w.throwing:
                     next = w.trajectory.next()

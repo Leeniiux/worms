@@ -2,6 +2,7 @@ import pygame
 
 
 class Config:
+    FONT = None
     WIND = 0
     MAP = None
     TEAM = None
