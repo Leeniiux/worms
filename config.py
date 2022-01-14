@@ -2,6 +2,10 @@ import pygame
 
 
 class Config:
+    WIND = 0
+    MAP = None
+    TEAM = None
+
     WINDOW_W = 1200
     WINDOW_H = 720
 
@@ -10,11 +14,11 @@ class Config:
 
     STATE = "starting"
 
-    GRAVITY = 9,81
-    FORCE_JUMP = -100
+    GRAVITY = 9.81
+    FORCE_JUMP = -9.81
     @staticmethod
     def init():
         Config.IMG_BACKGROUND_BOTH = pygame.image.load("assets/images/background/background.jpg")
-        Config.IMG_BACKGROUND_BOTH = pygame.transform(Config.IMG_BACKGROUND_BOTH, (Config.WINDOW_H, Config.WINDOW_W))
+        Config.IMG_BACKGROUND_BOTH = pygame.transform(Config.IMG_BACKGROUND_BOTH, (Config.WINDOW_W, Config.WINDOW_H))
         Config.IMG_NEW_GAME = pygame.image.load("assets/images/buttons/new_game.png")
 

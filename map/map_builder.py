@@ -18,7 +18,7 @@ class MapBuilder:
         pass
         return res
 
-    @staticmethod # MapBuilder.generateForm(500, 100, 20, 10) + 500
+    @staticmethod
     def generateForm(width, height, range, points, posx, posy):
         increment = 2*numpy.pi/points
         a = width/2

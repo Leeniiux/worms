@@ -1,44 +1,36 @@
-import pygame.mouse
 import math
 
-import main
-from modules.players.player import Player
-import time
+from config import Config
+from modules.utils import projectile
 
 
-class Grenade:
+class Grenade(projectile.Projectile):
 
-    x = 0
-    y = 0
-    MASSE = 5
-    r = 0.1
-    def __init__(self, player):
-        self.x = player.x
-        self.y = player.y
+    uses = 0
+    max_uses = 2
+    range = 50
+    max_damage = 80
 
+    throwing = False
+    trajectory = None
 
-    def before_explosion(self):
-        a = 3
-        for i in range (3):
-            print(a)
-            time.sleep(1)
-            a-=1
-        print("boom")
+    def __init__(self):
+        super().__init__(5, 1)
 
 
+    def throw(self, pos, speed):
+        if self.uses >= self.max_uses:
+            return False
+        self.uses += 1
 
+        self.trajectory = self.getTrajectory(pos, speed)
+        self.throwing = True
 
-
-
-
-
-
-if __name__ == '__main__':
-    player = Player(50, 0)
-    grenade = Grenade(player)
-    print(grenade.x)
-
-    player.x = 150
-    grenade2 = Grenade(player)
-    print(grenade2.x)
-    grenade.before_explosion()
+    def explode(self, pos):
+        for p in Config.TEAM.players:
+            dist = math.sqrt(math.pow(p.x-pos[0], 2) + math.pow(p.y-pos[1], 2))
+            if dist <= self.range:
+                dmg = int(self.max_damage - self.max_damage*dist/self.range)
+                p.health -= dmg
+                if p.health <= 0:
+                    Config.TEAM.players.remove(p)

@@ -1,3 +1,6 @@
+import random
+
+import numpy
 import pygame
 import math
 from config import Config
@@ -18,14 +21,25 @@ def listen():
 
         # In game
         if Config.STATE == "game":
-            Config.ACTION = []
+            p = Config.TEAM.current()
             if pygame.key.get_pressed()[pygame.K_SPACE]:
-                Config.ACTION.append("jump")
-            if pygame.key.get_pressed()[pygame.K_q]:
-                Config.ACTION.append("move_left")
-            if pygame.key.get_pressed()[pygame.K_d]:
-                Config.ACTION.append("move_right")
-
+                if math.fabs(p.y - Config.MAP.getY(p.x)) <= 5:
+                    p.speedY = Config.FORCE_JUMP
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_q:
+                p.speedLeft = -5
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_d:
+                p.speedRight = 5
+            if event.type == pygame.KEYUP and event.key == pygame.K_q:
+                p.speedLeft = 0
+            if event.type == pygame.KEYUP and event.key == pygame.K_d:
+                p.speedRight = 0
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_TAB:
+                p.switchWeapon()
+            if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
+                pos = [p.x, p.y - 30]
+                mouse = pygame.mouse.get_pos()
+                speed = [(mouse[0] - pos[0]), (mouse[1] - pos[1])]
+                p.getWeapon().throw(pos, speed)
     return False
 
 
@@ -38,7 +52,6 @@ def display(window):
     if Config.STATE == "main_menu":
         window.blit(Files.IMG_BACKGROUND_BOTH, (0, 0))
         window.blit(Files.IMG_NEW_GAME, ((Config.WINDOW_W-Files.IMG_NEW_GAME_W)/2, (Config.WINDOW_H-Files.IMG_NEW_GAME_H)/2))
-        #pygame.draw.polygon(window, points=MapBuilder.generateForm(500, 100, 20, 10) + 500, width=4, color=pygame.color.Color(20, 20, 20))
         return
 
     if Config.STATE == "init":
@@ -46,6 +59,7 @@ def display(window):
 
         # Generating map
         Config.MAP = MapBuilder.generate(True)
+        Config.WIND = random.randint(-5, 5)
 
         # Generating teams
         Config.TEAM = Team()
@@ -61,9 +75,31 @@ def display(window):
 
         # Displaying map
         pygame.draw.polygon(window, points=Config.MAP.points, color=pygame.color.Color(227, 71, 245), width=5)
-        # Displaying players
+        # Displaying players and thrown weapons
         for p in Config.TEAM.players:
-            pygame.draw.ellipse(window, Config.TEAM.color, pygame.Rect(p.x-10, p.y-50, 20, 60), 3)
+            p.move()
+            pygame.draw.ellipse(window, Config.TEAM.color, pygame.Rect(p.x-10, p.y-50, 20, 60), 0)
+            window.blit(Config.FONT.render(str(p.health), False, (0, 0, 0)), (p.x, p.y - 120))
+            for w in p.weapons:
+                if w.throwing:
+                    next = w.trajectory.next()
+                    if next:
+                        ymap = Config.MAP.getY(next[0])
+                        if next[1] >= ymap:
+                            w.throwing = False
+                            w.explode(next)
+                        else:
+                            pygame.draw.circle(window, pygame.color.Color(20, 20, 20), next, 8, 0)
+
+        #Draw trajectory
+        current = Config.TEAM.current()
+        weapon = current.getWeapon()
+        pos = [current.x, current.y-30]
+        mouse = pygame.mouse.get_pos()
+        speed = [(mouse[0] - pos[0]), (mouse[1] - pos[1])]
+
+        points = weapon.getTrajectory(pos, speed).points
+        pygame.draw.aalines(window, pygame.color.Color(255, 255, 255), False, points, 8)
         return
 
 
@@ -77,12 +113,14 @@ def loop(window):
         # Affichage
         display(window)
         pygame.display.update()
-
+        pygame.time.delay(30)
 
 
 def main():
     # Initialisations
     pygame.init()
+    pygame.font.init()
+    Config.FONT = pygame.font.SysFont('Comic Sans MS', 30)
     Files.init()
     window = pygame.display.set_mode((Config.WINDOW_W, Config.WINDOW_H))
 
@@ -93,31 +131,6 @@ def main():
     pygame.quit()
     quit()
 
-def traj(self, window, weapon, wind, gravity):
-    vectB = [self.x, self.y]
-    vectA = None
-    GRAVITY = 9,81
-    if (pygame.mouse.get_pressed(1)):
-        vectA = [pygame.mouse.get_pos()]
-    pygame.draw.line(window, pygame.color.Color(20, 20, 20), vectA, vectB)
-    speed = [vectB[0]-vectA[0], vectB[1]-vectA[1]]
-    currentPos = vectB
-    positions = []
-    while not hitSurface(weapon) or not outOfBounds(weapon):
-        positions.append(currentPos)
-        oldpos = currentPos
-        currentPos[0] = currentPos[0]+(-6*weapon.r*math.pi)/weapon.MASSE
-        currentPos[1] = currentPos[1]+(6*weapon.r*math.pi+GRAVITY)/weapon.MASSE
 
-
-
-
-
-
-def outOfBounds(weapon):
-    pass
-
-def hitSurface(weapon):
-    pass
 if __name__ == '__main__':
     main()

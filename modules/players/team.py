@@ -10,7 +10,7 @@ class Team:
     iterator = 0
 
     def __init__(self):
-        for i in range(5):
+        for i in range(7):
             self.players.append(Player(0, 0))
 
     def current(self):

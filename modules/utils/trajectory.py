@@ -1,5 +1,6 @@
+import math
+
 import numpy
-import pygame
 
 from config import Config
 
@@ -14,22 +15,26 @@ class Trajectory:
 
     def calculate(self):
         coords = self.origin
-        while coords[0] <= Config.WINDOW_W and coords[1] <= Config.WINDOW_H:
-            coords[0] = coords[0] + self.speed[0]
-            coords[1] = coords[1] + self.speed[1]
-            self.speed[0] = self.speed[0] - (6*self.projectile.radius*numpy.pi/self.projectile.mass) - (self.wind/self.projectile.mass)
-            self.speed[1] = self.speed[1] + (6*self.projectile.radius*numpy.pi/self.projectile.mass) + (self.wind/self.projectile.mass) + (Config.GRAVITY/self.projectile.mass)
+        while Config.WINDOW_H >= coords[1]:
+            nx = coords[0] + self.speed[0]
+            ny = coords[1] + self.speed[1]
+            coords = [nx, ny]
             self.points.append(coords)
+            self.speed[0] = self.speed[0] - 0.01*(1/250 * (6*self.projectile.radius*numpy.pi/self.projectile.mass*self.speed[0]) - self.wind/self.projectile.mass)
+            self.speed[1] = self.speed[1] - 0.01*(-1 / 250 * (6 * self.projectile.radius * numpy.pi / self.projectile.mass * self.speed[1]) - Config.GRAVITY / self.projectile.mass)
 
     def __init__(self, projectile, origin, speed, wind):
         self.projectile = projectile
         self.origin = origin
         self.speed = speed
+        self.speed[0] /= 20
+        self.speed[1] /= 20
         self.wind = wind
+        self.points = [origin]
         self.calculate()
 
     def next(self):
         self.iterator = self.iterator + 1
-        return self.coords[self.iterator]
-
-
+        if len(self.points) <= self.iterator:
+            return False
+        return self.points[self.iterator]

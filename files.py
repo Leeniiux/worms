@@ -13,6 +13,7 @@ class Files:
     @staticmethod
     def init():
         Files.IMG_BACKGROUND_BOTH = pygame.image.load("assets/images/background/background.jpg")
+        Files.IMG_BACKGROUND_BOTH = pygame.transform.scale(Files.IMG_BACKGROUND_BOTH, (config.Config.WINDOW_W, config.Config.WINDOW_H))
 
         Files.IMG_NEW_GAME = pygame.image.load("assets/images/buttons/new_game.png")
 
