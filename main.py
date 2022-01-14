@@ -34,7 +34,7 @@ def listen():
             if event.type == pygame.KEYUP and event.key == pygame.K_d:
                 p.speedRight = 0
             if event.type == pygame.KEYDOWN and event.key == pygame.K_TAB:
-                p.switchWeapon()
+                Config.TEAM.next()
             if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
                 pos = [p.x, p.y - 30]
                 mouse = pygame.mouse.get_pos()

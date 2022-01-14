@@ -1,5 +1,3 @@
-import math
-
 import numpy
 
 from config import Config
