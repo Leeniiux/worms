@@ -18,6 +18,11 @@ class Rocket_Launcher:
             time.sleep(1)
         return True
 
+    def traj(self, gravity, wind, window):
+        #trajectoire = polynôme du second degré
+        courbe =
+
+
 if __name__ == '__main__':
     player = Player(50, 0)
     rlaunch = Rocket_Launcher(player)

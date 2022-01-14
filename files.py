@@ -1,5 +1,7 @@
 import pygame
 
+import config
+
 
 class Files:
     IMG_BACKGROUND_BOTH = None
@@ -10,7 +12,7 @@ class Files:
 
     @staticmethod
     def init():
-        Files.IMG_BACKGROUND_BOTH = pygame.image.load("assets/images/background/both.png")
+        Files.IMG_BACKGROUND_BOTH = pygame.image.load("assets/images/background/background.jpg")
 
         Files.IMG_NEW_GAME = pygame.image.load("assets/images/buttons/new_game.png")
 

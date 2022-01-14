@@ -1,5 +1,5 @@
 import pygame
-
+import math
 from config import Config
 from files import Files
 from map.map_builder import MapBuilder
@@ -69,6 +69,30 @@ def main():
     pygame.quit()
     quit()
 
+def traj(self, window, weapon, wind, gravity):
+    vectB = [self.x, self.y]
+    vectA = None
+    GRAVITY = 9,81
+    if (pygame.mouse.get_pressed(1)):
+        vectA = [pygame.mouse.get_pos()]
+    pygame.draw.line(window, pygame.color.Color(20, 20, 20), vectA, vectB)
+    speed = [vectB[0]-vectA[0], vectB[1]-vectA[1]]
+    currentPos = vectB
+    positions = []
+    while not hitSurface() or not outOfBounds():
+        positions.append(currentPos)
+        oldpos = currentPos
+        currentPos[0] = currentPos[0]+(-6*weapon.r*math.pi)/weapon.MASSE
+        currentPos[1] = currentPos[1]+(6*weapon.r*math.pi+GRAVITY)/weapon.MASSE
+        pygame.draw.arc(window, 000000, )
 
+
+
+
+def outOfBounds():
+    pass
+
+def hitSurface():
+    pass
 if __name__ == '__main__':
     main()

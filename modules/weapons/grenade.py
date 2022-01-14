@@ -1,3 +1,7 @@
+import pygame.mouse
+import math
+
+import main
 from modules.players.player import Player
 import time
 
@@ -6,7 +10,8 @@ class Grenade:
 
     x = 0
     y = 0
-
+    MASSE = 5
+    r = 0.1
     def __init__(self, player):
         self.x = player.x
         self.y = player.y
@@ -19,6 +24,14 @@ class Grenade:
             time.sleep(1)
             a-=1
         print("boom")
+
+
+
+
+
+
+
+
 
 if __name__ == '__main__':
     player = Player(50, 0)
