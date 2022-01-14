@@ -3,6 +3,7 @@ import math
 from config import Config
 from files import Files
 from map.map_builder import MapBuilder
+from modules.players.team import Team
 
 
 def listen():
@@ -14,6 +15,16 @@ def listen():
         if Config.STATE == "main_menu":
             if pygame.key.get_pressed()[pygame.K_SPACE]:
                 Config.STATE = "init"
+
+        # In game
+        if Config.STATE == "game":
+            Config.ACTION = []
+            if pygame.key.get_pressed()[pygame.K_SPACE]:
+                Config.ACTION.append("jump")
+            if pygame.key.get_pressed()[pygame.K_q]:
+                Config.ACTION.append("move_left")
+            if pygame.key.get_pressed()[pygame.K_d]:
+                Config.ACTION.append("move_right")
 
     return False
 
@@ -32,14 +43,27 @@ def display(window):
 
     if Config.STATE == "init":
         Config.STATE = "game"
+
+        # Generating map
         Config.MAP = MapBuilder.generate(True)
+
+        # Generating teams
+        Config.TEAM = Team()
+
+        # Setting each player position
+        Config.MAP.spreadPlayers(Config.TEAM)
+
         display(window)
         return
 
     if Config.STATE == "game":
         window.blit(Files.IMG_BACKGROUND_BOTH, (0, 0))
-        for p in Config.MAP.forms:
-            pygame.draw.polygon(window, points=p, color=pygame.color.Color(227, 71, 245), width=5)
+
+        # Displaying map
+        pygame.draw.polygon(window, points=Config.MAP.points, color=pygame.color.Color(227, 71, 245), width=5)
+        # Displaying players
+        for p in Config.TEAM.players:
+            pygame.draw.ellipse(window, Config.TEAM.color, pygame.Rect(p.x-10, p.y-50, 20, 60), 3)
         return
 
 
